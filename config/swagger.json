@@ -1,0 +1,793 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "REST API Docs",
+      "description": "SuperAdmin Side API"
+        
+    },
+    "host": "localhost:5000",
+    "basePath": "/api",
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "API for Auth "
+    },
+    {
+      "name": "DataBase",
+      "description": "API for generate DB for recruiter"
+    },
+    {
+      "name": "Pack",
+      "description": "API for generate Pack "
+    },
+    {
+      "name": "Module",
+      "description": "API for generate Modules "
+    }
+    ,{
+      
+      "name": "Features",
+      "description": "API for generate Features "
+    }
+    
+    
+    
+
+
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+ 
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "security": [
+    {
+      "Authorization": []
+    }
+  ],
+"securityDefinitions": {
+"Authorization": {
+"type": "apiKey",
+"name": "Authorization",
+"description": "Value: Bearer ",
+"in": "header"
+}
+},
+  "paths": { 
+    "/login": {
+      "post": {
+          "summary": "Super Admin login",
+          "tags": [
+              "Auth"
+            ],
+            
+            "parameters": [
+              {
+                "name": "obj",
+                "in": "body",
+                "required": true,
+                "schema": {
+                  "$ref": "#/definitions/LoginModel"
+                }
+              }
+            ],
+          "produces": [
+          "application/json"
+          ],
+          "responses": {
+          "200": {
+              "description": "condidat connected succesfully."
+          },
+          "400":{
+              "description": "this account does not existe "},
+          "500":{
+                "description": "Internal Server error "}
+          }
+      }
+  },
+
+  "/register": {
+          "post": {
+              "summary": "Add new admin in the  system",
+              "tags": [
+                  "Auth"
+                ],
+                "parameters": [
+                  {
+                    "name": "obj",
+                    "in": "body",
+                    "required": true,
+                    "schema": {
+                      "$ref": "#/definitions/RegisterModel"
+                    }
+                  }
+                ],
+              "produces": [
+              "application/json"
+              ],
+              "responses": {
+              "200": {
+                  "description": "Condidat registred successfully."
+              },
+              "400":{
+                  "description": "this account all ready exist "},
+              "500":{
+                    "description": "Internal Server error "}
+              }
+          }
+  }  ,
+    "/db": {
+      "post": {
+        "summary": "Create a new RecruiterDB",
+        "description": "This can only be done by the logged in user.",
+          
+          "tags": [
+              "DataBase"
+            ],
+            "parameters": [
+              {
+                "name": "obj",
+                "in": "body",
+                "required": true,
+                "schema": {
+                  "$ref": "#/definitions/DBModel"
+                }
+               
+              }
+            ],
+          "produces": [
+          "application/json"
+          ],
+          "responses": {
+          "200": {
+              "description": "DB created successfuly"
+          },
+          "400":{
+              "description": "this DB already exist "},
+          "500":{
+                "description": "Internal Server error "}
+          }
+      }},
+  "/addpack": {
+        "post": {
+            "summary": "Add a new pack",
+            "description": "This can only be done by the logged in user.",
+            "tags": [
+                "Pack"
+              ],
+              "parameters": [
+                {
+                  "name": "obj",
+                  "in": "body",
+                  "required": true,
+                  "schema": {
+                    "$ref": "#/definitions/PackModel"
+                  }
+                },
+                {
+                  "name": "Authorization",
+                  "in" : "header",
+                  "description": "an authorization header",
+                  "required": true,
+                  "type": "string"
+                }
+              ],
+            "produces": [
+            "application/json"
+            ],
+            "responses": {
+            "200": {
+                "description": "new pack  add successfully"
+            },
+            "400":{
+                "description": "this pack already exist"},
+            "500":{
+                  "description": "Internal Server error "}
+            }
+        }
+      },
+"/pack/:id": {
+        "get": {
+            "summary": "Get pack information by id",
+            "description": "This can only be done by the logged in user.",
+            "tags": [
+                "Pack"
+              ],
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "Authorization",
+                  "in" : "header",
+                  "description": "an authorization header",
+                  "required": true,
+                  "type": "string"
+                }
+              ],
+            "produces": [
+            "application/json"
+            ],
+            "responses": {
+            "200": {
+                "description": "pack found successfully"
+            },
+            "404":{
+                "description": "this pack does not  exist."},
+            "500":{
+                  "description": "Internal Server error "}
+            }
+        }
+      },
+      "/Packs": {
+        "get": {
+          "summary": "Returns the list of all the Pack",
+            "description": "This can only be done by the logged in user.",
+            "tags": [
+                "Pack"
+              ],
+              "parameters": [
+                {
+                  "name": "Authorization",
+                  "in" : "header",
+                  "description": "an authorization header",
+                  "required": true,
+                  "type": "string"
+                }],
+            "produces": [
+            "application/json"
+            ],
+            "responses": {
+            "200": {
+                "description": "pack found successfully"
+            },
+            "404":{
+                "description": "No Packs ."},
+            "500":{
+                  "description": "Internal Server error "}
+            }
+          }
+      },
+      "/updatepack/:id": {
+        "put": {
+          "summary": "Update pack",
+            "description": "This can only be done by the logged in user.",
+            "tags": [
+                "Pack"
+              ],
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "Authorization",
+                  "in" : "header",
+                  "description": "an authorization header",
+                  "required": true,
+                  "type": "string"
+                }
+              ],
+            "produces": [
+            "application/json"
+            ],
+            "responses": {
+            "200": {
+                "description": "pack updated successfully"
+            },
+            "404":{
+                "description": "this pack does not  exist."},
+            "500":{
+                  "description": "Internal Server error "}
+            }
+        }
+      },
+      "/removepack/:id": {
+        "delete": {
+          "summary": "Delete pack ",
+            "description": "For valid response try integer, String IDs with positive integer value. Negative  values will generate API errors",
+            "tags": [
+                "Pack"
+              ],
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "Authorization",
+                  "in" : "header",
+                  "description": "an authorization header",
+                  "required": true,
+                  "type": "string"
+                }
+              ],
+            "produces": [
+            "application/json"
+            ],
+            "responses": {
+            "200": {
+                "description": "pack deleted successfully."
+            },
+            "404":{
+                "description": "this pack does not exist. "},
+            "500":{
+                  "description": "Internal Server error "}
+            }
+        }
+      },
+      "/addmodule": {
+        "post": {
+            "summary": "Add a new Module",
+            "description": "This can only be done by the logged in user.",
+            "tags": [
+                "Module"
+              ],
+              "parameters": [
+                {
+                  "name": "obj",
+                  "in": "body",
+                  "required": true,
+                  "schema": {
+                    "$ref": "#/definitions/ModuleModel"
+                  }
+                },
+                {
+                  "name": "Authorization",
+                  "in" : "header",
+                  "description": "an authorization header",
+                  "required": true,
+                  "type": "string"
+                }
+              ],
+            "produces": [
+            "application/json"
+            ],
+            "responses": {
+            "200": {
+                "description": "new Module  add successfully"
+            },
+            "400":{
+                "description": "this Module already exist"},
+            "500":{
+                  "description": "Internal Server error "}
+            }
+        }
+      },
+"/module/:id": {
+        "get": {
+            "summary": "Get Module information by id",
+            "description": "This can only be done by the logged in user.",
+            "tags": [
+                "Module"
+              ],
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "Authorization",
+                  "in" : "header",
+                  "description": "an authorization header",
+                  "required": true,
+                  "type": "string"
+                }
+              ],
+            "produces": [
+            "application/json"
+            ],
+            "responses": {
+            "200": {
+                "description": "Module found successfully"
+            },
+            "404":{
+                "description": "this Module does not  exist."},
+            "500":{
+                  "description": "Internal Server error "}
+            }
+        }
+      },
+      "/modules": {
+        "get": {
+          "summary": "Returns the list of all the modules",
+            "description": "This can only be done by the logged in user.",
+            "tags": [
+                "Module"
+              ],
+              "parameters": [
+                {
+                  "name": "Authorization",
+                  "in" : "header",
+                  "description": "an authorization header",
+                  "required": true,
+                  "type": "string"
+                }],
+            "produces": [
+            "application/json"
+            ],
+            "responses": {
+            "200": {
+                "description": "Module found successfully"
+            },
+            "404":{
+                "description": "No Modules ."},
+            "500":{
+                  "description": "Internal Server error "}
+            }
+          }
+      },
+      "/updateModule/:id": {
+        "put": {
+          "summary": "Update Module",
+            "description": "This can only be done by the logged in user.",
+            "tags": [
+                "Module"
+              ],
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "Authorization",
+                  "in" : "header",
+                  "description": "an authorization header",
+                  "required": true,
+                  "type": "string"
+                }
+              ],
+            "produces": [
+            "application/json"
+            ],
+            "responses": {
+            "200": {
+                "description": "Module updated successfully"
+            },
+            "404":{
+                "description": "this Module does not  exist."},
+            "500":{
+                  "description": "Internal Server error "}
+            }
+        }
+      },
+      "/removemodule/:id": {
+        "delete": {
+          "summary": "Delete Module ",
+            "description": "For valid response try integer, String IDs with positive integer value. Negative  values will generate API errors",
+            "tags": [
+                "Module"
+              ],
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "Authorization",
+                  "in" : "header",
+                  "description": "an authorization header",
+                  "required": true,
+                  "type": "string"
+                }
+              ],
+            "produces": [
+            "application/json"
+            ],
+            "responses": {
+            "200": {
+                "description": "Module deleted successfully."
+            },
+            "404":{
+                "description": "this Module does not exist. "},
+            "500":{
+                  "description": "Internal Server error "}
+            }
+        }
+      }
+      ,
+      "/addfeatures": {
+        "post": {
+            "summary": "Add a new Feature",
+            "description": "This can only be done by the logged in user.",
+            "tags": [
+                "Features"
+              ],
+              "parameters": [
+                {
+                  "name": "obj",
+                  "in": "body",
+                  "required": true,
+                  "schema": {
+                    "$ref": "#/definitions/FeaturesModel"
+                  }
+                },
+                {
+                  "name": "Authorization",
+                  "in" : "header",
+                  "description": "an authorization header",
+                  "required": true,
+                  "type": "string"
+                }
+              ],
+            "produces": [
+            "application/json"
+            ],
+            "responses": {
+            "200": {
+                "description": "new feature  add successfully"
+            },
+            "400":{
+                "description": "this feature already exist"},
+            "500":{
+                  "description": "Internal Server error "}
+            }
+        }
+      },
+"/feature/:id": {
+        "get": {
+            "summary": "Get feature information by id",
+            "description": "This can only be done by the logged in user.",
+            "tags": [
+                "Features"
+              ],
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "Authorization",
+                  "in" : "header",
+                  "description": "an authorization header",
+                  "required": true,
+                  "type": "string"
+                }
+              ],
+            "produces": [
+            "application/json"
+            ],
+            "responses": {
+            "200": {
+                "description": "Features found successfully"
+            },
+            "404":{
+                "description": "this Features does not  exist."},
+            "500":{
+                  "description": "Internal Server error "}
+            }
+        }
+      },
+      "/features": {
+        "get": {
+          "summary": "Return the list of all the features",
+            "description": "This can only be done by the logged in user.",
+            "tags": [
+                "Features"
+              ],
+              "parameters": [
+                {
+                  "name": "Authorization",
+                  "in" : "header",
+                  "description": "an authorization header",
+                  "required": true,
+                  "type": "string"
+                }],
+            "produces": [
+            "application/json"
+            ],
+            "responses": {
+            "200": {
+                "description": "features found successfully"
+            },
+            "404":{
+                "description": "No features ."},
+            "500":{
+                  "description": "Internal Server error "}
+            }
+          }
+      },
+      "/updatefeature/:id": {
+        "put": {
+          "summary": "Update feature",
+            "description": "This can only be done by the logged in user.",
+            "tags": [
+                "Features"
+              ],
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "Authorization",
+                  "in" : "header",
+                  "description": "an authorization header",
+                  "required": true,
+                  "type": "string"
+                }
+              ],
+            "produces": [
+            "application/json"
+            ],
+            "responses": {
+            "200": {
+                "description": "Features updated successfully"
+            },
+            "404":{
+                "description": "this Features does not  exist."},
+            "500":{
+                  "description": "Internal Server error "}
+            }
+        }
+      },
+      "/removefeature:id": {
+        "delete": {
+          "summary": "Delete Feature ",
+            "description": "For valid response try integer, String IDs with positive integer value. Negative  values will generate API errors",
+            "tags": [
+                "Features"
+              ],
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "Authorization",
+                  "in" : "header",
+                  "description": "an authorization header",
+                  "required": true,
+                  "type": "string"
+                }
+              ],
+            "produces": [
+            "application/json"
+            ],
+            "responses": {
+            "200": {
+                "description": "Features deleted successfully."
+            },
+            "404":{
+                "description": "this Features does not exist. "},
+            "500":{
+                  "description": "Internal Server error "}
+            }
+        }
+      }
+      
+},
+"definitions": {
+  "LoginModel":{
+    "required": [
+     "email",
+     "password"
+    ],
+    "properties": {
+     "email": {
+         "type": "string"
+       },
+       "password": {
+         "type": "string"
+       }
+    }
+},
+"RegisterModel":{
+  "required": [
+      "firstName",
+      "lastName",
+      "phone",
+      "email",
+      "password"
+  ],
+  "properties": {
+      "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+  }
+  },
+  "DBModel":{
+    "required": [
+     "matricule"
+     
+    ],
+    "properties": {
+     "matricule": {
+         "type": "string"
+       }
+      
+    }
+},
+"PackModel":{
+  "required": [
+   "name",
+   "price",
+   "dateOfBuy",
+   "expirationDate"
+  ],
+  "properties": {
+   "name": {
+       "type": "string"
+     },
+     "price": {
+       "type": "string"
+     },
+     "dateOfBuy": {
+       "type": "string"
+     },
+     "expirationDate": {
+       "type": "string"
+     }
+  }
+},
+"ModuleModel":{
+  "required": [
+   "Title",
+   "packId"
+  ],
+  "properties": {
+   "Title": {
+       "type": "string"
+     },
+     "password": {
+       "type": "string"
+     }
+  }
+},
+"FeaturesModel":{
+  "required": [
+   "name",
+   "moduleId"
+  ],
+  "properties": {
+   "name": {
+       "type": "string"
+     },
+     "moduleId": {
+       "type": "string"
+     }
+  }
+}
+}
+
+
+  
+}
