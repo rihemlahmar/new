@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.ts",
-    "dev": "ts-node-dev app.ts",
+    "dev": "nodemon --exec \"ts-node --cache-directory .tscache\" ./src/www.ts",
     "build": "tsc"
   },
   "keywords": [],
